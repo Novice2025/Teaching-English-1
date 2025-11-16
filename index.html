@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lego-Chain English | Correção de Bra-glish</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons via CDN -->
+    <script type="module">
+        import { createIcons, Zap, CheckCircle, XCircle, ArrowRight, UserCheck, Blocks } from 'https://unpkg.com/lucide@latest/dist/esm/lucide.js';
+        window.lucide = { createIcons, Zap, CheckCircle, XCircle, ArrowRight, UserCheck, Blocks };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .block-chain-container {
+            scroll-margin-top: 8rem; /* Para o scroll se ajustar ao cabeçalho fixo */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div id="app">
+        <!-- Conteúdo será renderizado aqui -->
+    </div>
+
+    <script>
+        // --- DATA: LESSON BLOCKS (O NOSSO "BLOCK CHAIN") ---
+
+        const lessonBlocks = [
+          {
+            title: "Bloco 1: Casa e Estrutura (Storey vs. Floor)",
+            concepts: [
+              {
+                english: "I live in a one-storey house.",
+                portuguese: "Eu moro em uma casa de um andar (ou pavimento).",
+                culturalNote: "Esta é a armadilha da tradução literal de 'andar'. Em português, usamos 'andar' tanto para o pavimento ('casa de um andar') quanto para a localização ('no segundo andar'). Em inglês, a palavra **'storey'** (ou 'story' nos EUA) é a mais comum para o *pavimento*, a característica do prédio. **'Floor'** é a *localização* (o andar onde você está).",
+                sourceSentences: ["2. I live in a house of one storey", "3. I live in a one-storey house"],
+              },
+              {
+                english: "I have a backyard of my house.",
+                portuguese: "Eu tenho um quintal na minha casa.",
+                culturalNote: "O erro original (Sent. 5) está na redundância e na preposição incorreta. 'I have a backyard' já basta. Use sempre **'backyard'** para o quintal de trás da casa. **'Yard'** sozinho é mais genérico (o gramado ou a área da frente).",
+                sourceSentences: ["5. I have a backyard of my house"],
+              }
+            ],
+            quiz: {
+              question: "Escolha a palavra correta: Minha tia mora em um apartamento no décimo ___.",
+              options: [
+                { text: "floor", correct: true },
+                { text: "storey", correct: false, explanation: "'Storey' é a característica do prédio ('a ten-storey building'), não a localização (o andar onde ela mora)." },
+                { text: "ground", correct: false, explanation: "'Ground' (térreo) não se encaixa." }
+              ],
+              tip: "Lembre-se: 'storey' = característica (o prédio tem), 'floor' = localização (eu estou)."
+            }
+          },
+          {
+            title: "Bloco 2: Comunicação e Sentimentos (Idioms)",
+            concepts: [
+              {
+                english: "I answer the phone / I pick up the phone.",
+                portuguese: "Eu atendo o telefone.",
+                culturalNote: "O erro vem da tradução literal de 'atender' como 'attend'. Em inglês, **'attend'** é 'participar/estar presente' (e.g., 'attend a meeting'). Para atender uma chamada, usamos **'I answer the phone'** ou **'I pick up the phone'**.",
+                sourceSentences: ["12. The telephone rings. I answer or pick up the receiver or I attend the telephone."],
+              },
+              {
+                english: "Why did you hang up on me / on my face?",
+                portuguese: "Por que você desligou na minha cara?",
+                culturalNote: "A tradução literal 'disconnect on my face' é completamente estranha. A expressão correta é **'to hang up on someone's face'** ou, mais comumente, apenas **'to hang up on me'** (desligar na minha cara/comigo). O verbo 'disconnect' é técnico, não conversacional.",
+                sourceSentences: ["14. Why did you hang up or disconnect on my face."],
+              },
+              {
+                english: "You are a pain in the neck.",
+                portuguese: "Você é um estorvo / um chato.",
+                culturalNote: "Esta é uma expressão idiomática muito usada que não tem nada a ver com a palavra 'estorvo' ou 'chato'. Literalmente 'dor no pescoço', esta é uma maneira educada (mas firme) de dizer que alguém é irritante ou problemático.",
+                sourceSentences: ["32. You are a pain in the neck."],
+              }
+            ],
+            quiz: {
+              question: "Qual o melhor sinônimo para 'I am starving' (da lista)?",
+              options: [
+                { text: "I am thirsty", correct: false, explanation: "Thirsty significa 'com sede'." },
+                { text: "I can eat a horse", correct: true },
+                { text: "I need to recharge the battery", correct: false, explanation: "Isso é 'recarregar a bateria'." }
+              ],
+              tip: "Os falantes nativos usam 'I'm starving' (Estou morrendo de fome) o tempo todo!"
+            }
+          },
+          {
+            title: "Bloco 3: Falsos Amigos e Variações (False Cognates)",
+            concepts: [
+              {
+                english: "The bus conductor is playing politics with me.",
+                portuguese: "O cobrador de ônibus está fazendo politicagem comigo.",
+                culturalNote: "O termo 'doing his politics' é resultado de uma tradução direta. Em inglês, use **'playing politics'** (jogando politicagem, fazendo política interna) ou 'getting involved in politics'. **'Politics'** geralmente se refere ao sistema governamental.",
+                sourceSentences: ["48. The bus conductor is doing his politics with me.", "49. Stop with your politics at work."],
+              },
+              {
+                english: "Alto de Pinheiros is a posh place to live.",
+                portuguese: "Alto de Pinheiros é um lugar chique e elegante para morar.",
+                culturalNote: "O erro está em usar 'poshy', que não existe. A palavra é **'posh'** (Britânico) ou **'swanky'** (Americano), que significam 'elegante' ou 'luxuoso' (e.g., 'a posh neighborhood').",
+                sourceSentences: ["22. Alto de Pinheiros is a chic and poshy place to live."],
+              },
+              {
+                english: "My computer has a bug / there is a bug in my computer.",
+                portuguese: "Meu computador está com um bug.",
+                culturalNote: "Este é um erro de Estrutura Verbal (Verbo + Preposição). Em português dizemos 'estar com' (problema). Em inglês, não se usa **'to be with'** para problemas ou doenças. O correto é **'to have'** ('ter') ou **'there is'** ('há'). O computador *tem* um bug. O mesmo vale para Sentença 27: 'I have a stomach bug'.",
+                sourceSentences: ["26. My computer is with a bug", "27. I am with a stomach bug."],
+              }
+            ],
+            quiz: {
+              question: "Traduza: 'O nosso relacionamento é uma casa de cartas.' (Sent. 83)",
+              options: [
+                { text: "Our relationship is a house of papers.", correct: false, explanation: "Papers é 'papéis', não cartas de baralho." },
+                { text: "Our relation is a house of cards.", correct: true },
+                { text: "Our relation has a bug.", correct: false, explanation: "Tem um erro de estrutura (Bug é 'defeito')." }
+              ],
+              tip: "A expressão é a mesma em inglês: 'A house of cards' = algo frágil (como o relacionamento)."
+            }
+          },
+          {
+            title: "Bloco 4: Trânsito e Infraestrutura (Vida Urbana)",
+            concepts: [
+              {
+                english: "Marginal Pinheiros is a nightmare for many drivers, especially when it rains.",
+                portuguese: "A Marginal Pinheiros é um pesadelo para muitos motoristas, especialmente quando chove.",
+                culturalNote: "O erro comum é usar 'special' (adjetivo) como advérbio. O correto é **'especially'** ou **'particularly'** (advérbios). A palavra **'nightmare'** (pesadelo) é uma ótima forma de descrever o trânsito.",
+                sourceSentences: ["15. Marginal Pinheiros is a nightmare for many drivers, special when it rains."],
+              },
+              {
+                english: "We need new bridges and overpasses to improve the road traffic flow.",
+                portuguese: "Precisamos de novas pontes e viadutos para melhorar o fluxo do tráfego.",
+                culturalNote: "O termo **'flies-over'** (Sent. 16) é usado, mas **'overpasses'** (EUA) ou **'flyovers'** (Reino Unido) são mais formais e comuns para viadutos. O 'road traffic flow' (fluxo de tráfego) está correto.",
+                sourceSentences: ["16. We need new bridges and flies-over to improve the road traffic flow."],
+              },
+              {
+                english: "Marginal Pinheiros is jammed, I need a shortcut to get home.",
+                portuguese: "A Marginal Pinheiros está congestionada, preciso de um atalho para ir para casa.",
+                culturalNote: "Tradução literal de 'curto-circuito' (short-circuit). Para atalho, use **'shortcut'** (uma palavra). **'Jammed'** (Sent. 54) significa que o trânsito está parado ou engarrafado. **'To get home'** é a forma mais natural de dizer 'ir para casa'.",
+                sourceSentences: ["54. Marginal Pinheiros is jammed, I need a short-circuit to home."],
+              }
+            ],
+            quiz: {
+              question: "Qual palavra usamos para 'atalho' em inglês?",
+              options: [
+                { text: "short-circuit", correct: false, explanation: "'Short-circuit' é um termo elétrico (curto-circuito)." },
+                { text: "short-cut", correct: false, explanation: "Embora compreensível, a forma correta é 'shortcut' (uma palavra)." },
+                { text: "shortcut", correct: true }
+              ],
+              tip: "Um 'shortcut' é o caminho mais rápido, um 'short-circuit' queima tudo!"
+            }
+          },
+          {
+            title: "Bloco 5: Finanças e Carreira (Expressões Profissionais)",
+            concepts: [
+              {
+                english: "Facebook is a blue-chip company.",
+                portuguese: "O Facebook é uma empresa de primeira linha (com ações estáveis e de alto valor).",
+                culturalNote: "Uma **'blue-chip'** é uma ação de uma grande empresa financeiramente sólida e bem estabelecida (o 'padrão ouro'). O termo é o mesmo que usamos em português.",
+                sourceSentences: ["38. Facebook is a blue-chip."],
+              },
+              {
+                english: "I need the blueprint of the building.",
+                portuguese: "Eu preciso da planta baixa do prédio.",
+                culturalNote: "**'Blueprint'** (Sent. 39) é o termo padrão para planta, o projeto detalhado. Não é apenas uma 'cópia azul' (literal). É amplamente usado, inclusive para 'plano mestre' (e.g., 'the blueprint for success').",
+                sourceSentences: ["39. I need the blue print of Facebook's building."],
+              },
+              {
+                english: "I need to work overtime to boost production.",
+                portuguese: "Eu preciso fazer hora extra para aumentar a produção.",
+                culturalNote: "O erro aqui é a expressão 'to push production' (Sent. 40), que é estranha. **'Overtime'** é hora extra. O verbo mais natural para 'aumentar/impulsionar' é **'to boost production'** ou **'to increase output'**.",
+                sourceSentences: ["40. I need to work overtime to push production."],
+              },
+              {
+                english: "It is full credit to the staff.",
+                portuguese: "O crédito é todo da equipe (do staff).",
+                culturalNote: "O erro tem duas partes: 1) O plural de 'staff' (equipe) é 'staff' – não existe 'staffs'. 2) A forma mais idiomática de dar reconhecimento total é **'It is full credit to...'** (O crédito é todo para...).",
+                sourceSentences: ["82. It is full credits for the staffs"],
+              }
+            ],
+            quiz: {
+              question: "O que significa 'I need to work overtime'?",
+              options: [
+                { text: "Eu preciso de tempo livre.", correct: false, explanation: "Significa tempo extra, não livre." },
+                { text: "Eu preciso fazer hora extra.", correct: true },
+                { text: "Eu preciso adiar o trabalho.", correct: false, explanation: "Significa excesso de tempo de trabalho." }
+              ],
+              tip: "Lembre-se: 'over' = excesso, 'time' = tempo. Excesso de tempo de trabalho."
+            }
+          },
+          {
+            title: "Bloco 6: Marketing, Logística e Detalhes",
+            concepts: [
+              {
+                english: "The badge of my car is a lion.",
+                portuguese: "O emblema do meu carro é um leão.",
+                culturalNote: "O erro está em usar a palavra 'emblem' (Sent. 17). Em inglês, o símbolo de um carro é mais comumente chamado de **'badge'** (Britânico) ou **'logo'**. **'Emblem'** é aceitável, mas 'badge' é mais específico para carros.",
+                sourceSentences: ["17. The emblem of my car is a lion. It is a Peugeot.", "18. The logo of my company is a lion."],
+              },
+              {
+                english: "We are organising some banners, leaflets, pamphlets and handouts.",
+                portuguese: "Estamos organizando alguns banners, folhetos, panfletos e *handouts* (materiais de distribuição).",
+                culturalNote: "A palavra **'hands-out'** (literal, com hífen) é um erro comum de quem pensa em 'mão para fora'. O termo correto é **'handouts'** (uma palavra) ou **'flyers'** / **'brochures'** para folhetos promocionais. Significa 'materiais distribuídos'.",
+                sourceSentences: ["19. We are organising some banners, leaflets, pamphlets and hands-out."],
+              },
+              {
+                english: "The car window is broken.",
+                portuguese: "O vidro do meu carro está quebrado.",
+                culturalNote: "O erro é usar 'window pane' (Sent. 20), que se refere ao vidro de uma janela de casa. Para carros, use simplesmente **'car window'** (janela lateral) ou **'windshield'** (para-brisa).",
+                sourceSentences: ["20. The window pane of my car is broken."],
+              }
+            ],
+            quiz: {
+              question: "Qual a palavra correta para 'folheto de distribuição' no contexto de marketing?",
+              options: [
+                { text: "hands-out", correct: false, explanation: "Não é a forma correta. O termo é uma palavra só, sem o hífen." },
+                { text: "handouts", correct: true },
+                { text: "window pane", correct: false, explanation: "Isso se refere ao vidro da janela." }
+              ],
+              tip: "Pense em 'entregas de mão' (handouts), não em 'mãos para fora' (hands-out)."
+            }
+          },
+          {
+            title: "Bloco 7: Logística, Finanças Pessoais e Respeito",
+            concepts: [
+              {
+                english: "I visited the grave of my late father at the graveyard.",
+                portuguese: "Eu visitei o túmulo do meu falecido pai no cemitério.",
+                culturalNote: "O termo **'late'** (Sent. 6) é a forma correta de se referir a alguém que faleceu ('meu falecido pai'). **'Graveyard'** é correto, mas **'cemetery'** é mais formal e comum. Não há grande erro, mas 'I visited my late father's **grave**' (o túmulo) é mais sucinto.",
+                sourceSentences: ["6. I visited my late father at the graveyard"],
+              },
+              {
+                english: "The pilot lost control of the airplane and went off course in the Amazon.",
+                portuguese: "O piloto perdeu o controle do avião e saiu de sua rota na Amazônia.",
+                culturalNote: "O erro está em usar 'finished its course or itinerary' (Sent. 8), que é tradução literal e estranha. O termo correto para desvio de rota inesperado é **'went off course'** (saiu da rota) ou **'lost its course'**.",
+                sourceSentences: ["8. The pilot lost control of the aeroplane and finished its course or itinerary in Amazon."],
+              },
+              {
+                english: "The air freight is due on November 22, 2013.",
+                portuguese: "O frete aéreo deve ser pago (ou chegar) em 22 de novembro de 2013.",
+                culturalNote: "**'Air freight'** (Sent. 9) é o termo técnico para frete aéreo. **'Is due'** é um termo de logística/finanças que significa que algo é esperado, está 'vencido' ou deve ser pago/entregue até aquela data. Esta frase está estruturalmente correta.",
+                sourceSentences: ["9. The air freight is due on November 22, 2013."],
+              },
+              {
+                english: "The condominium fee is expensive (or steep).",
+                portuguese: "A taxa de condomínio é cara.",
+                culturalNote: "Esta é uma tradução literal de 'caro'. No inglês moderno, **'dear'** (Sent. 10) significa quase que exclusivamente 'querido/a' (Sent. 11). Para custo, o termo correto é **'expensive'** ou a gíria **'steep'**.",
+                sourceSentences: ["10. The condominium fee is dear.", "11. My dear friend John, how are you these days?"],
+              }
+            ],
+            quiz: {
+              question: "Qual o erro da frase: 'The condominium fee is dear'?",
+              options: [
+                { text: "O termo 'condominium fee' está errado.", correct: false, explanation: "O termo está correto." },
+                { text: "'Dear' não é a palavra natural para 'caro' (custoso) hoje.", correct: true },
+                { text: "A frase deveria usar 'cemetery' ao invés de 'graveyard'.", correct: false, explanation: "Essa confusão não se aplica a esta frase." }
+              ],
+              tip: "Dear = Querido. Expensive/Steep = Caro."
+            }
+          },
+          {
+            title: "Bloco 8: Vizinhança e Vida Urbana (Ruas e Bairros)",
+            concepts: [
+              {
+                english: "There are many puddles and potholes in the streets.",
+                portuguese: "Há muitas poças d'água e buracos nas ruas.",
+                culturalNote: "O erro do 'Bra-glish' é usar 'holes' (buracos genéricos) para buracos de rua. O correto é **'potholes'** (buracos no asfalto). Também, 'puddles of water' é redundante, use apenas **'puddles'** (poças). A preposição é **'in the streets'** (US) ou **'on the road'.**",
+                sourceSentences: ["21. There are lots of puddles of water and holes on the streets."],
+              },
+              {
+                english: "Which neighborhood in São Paulo are you from?",
+                portuguese: "De qual bairro/região de São Paulo você é?",
+                culturalNote: "Não traduza 'parte' literalmente (**'part'**). Em inglês, para localização urbana, use **'neighborhood'** (bairro) ou **'area'** (região). A forma mais natural e comum é 'Where are you from in X?' ou 'Which neighborhood are you from?'",
+                sourceSentences: ["23. Which part of Sao Paolo, are you from?"],
+              },
+              {
+                english: "I am at the gas station. I am filling up my tank.",
+                portuguese: "Estou no posto de gasolina. Estou enchendo o tanque.",
+                culturalNote: "Use **'gas station'** (EUA) ou **'petrol station'** (RU). Evite 'fuel station' para conversas casuais. A frase 'I am filling up my tank' (Sent. 25) está correta e é nativa. Não use 'to fill in my tank' (Sent. 99 - erro de preposição).",
+                sourceSentences: ["24. I am at the gas / fuel / petrol station.", "25. I am filling up my tank."],
+              }
+            ],
+            quiz: {
+              question: "Qual o termo correto para 'buraco no asfalto'?",
+              options: [
+                { text: "road holes", correct: false, explanation: "'Road holes' é compreensível, mas 'pothole' é o termo específico e nativo." },
+                { text: "potholes", correct: true },
+                { text: "big cracks", correct: false, explanation: "'Cracks' são rachaduras, não buracos." }
+              ],
+              tip: "Pense no asfalto como uma 'panela' (pot) com um buraco: Pothole!"
+            }
+          }
+        ];
+
+        // --- GLOBAL STATE ---
+        let currentBlockIndex = 0;
+        let quizStates = lessonBlocks.map(() => ({
+            answered: false,
+            correct: null,
+            selectedOption: null,
+        }));
+
+        // --- UTILITY FUNCTIONS ---
+
+        function getIconSVG(name, classes) {
+            const size = "w-6 h-6";
+            const color = classes;
+            // Uses Lucide icons (pre-loaded in <script type="module">)
+            const icons = {
+                Blocks: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2h3a2 2 0 0 1 2 2v3"/><path d="M7 2h3a2 2 0 0 0 2 2v3"/><path d="M10 2v3"/><path d="M7 2v3"/><path d="M17 2v3"/></svg>`,
+                Zap: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+                CheckCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M9 11l3 3L22 4"/></svg>`,
+                XCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
+                ArrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+                UserCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M19 8h6"/><path d="m22 3-6 6"/><circle cx="9" cy="7" r="4"/></svg>`,
+            };
+            return icons[name] || '';
+        }
+
+        function handleAnswer(blockIndex, optionIndex) {
+            const block = lessonBlocks[blockIndex];
+            const option = block.quiz.options[optionIndex];
+            
+            if (quizStates[blockIndex].answered) return;
+
+            const isCorrect = option.correct;
+            quizStates[blockIndex] = {
+                answered: true,
+                correct: isCorrect,
+                selectedOption: option,
+            };
+
+            renderApp(); // Re-render the app to update the block UI
+
+            if (isCorrect) {
+                // Wait 1.5s before moving to the next block
+                setTimeout(() => {
+                    handleBlockCompletion(blockIndex);
+                }, 1500);
+            }
+        }
+
+        function handleBlockCompletion(blockIndex) {
+            if (blockIndex === currentBlockIndex && quizStates[blockIndex].correct) {
+                currentBlockIndex++;
+                renderApp(); // Re-render the app to highlight the next block and scroll
+
+                // Scroll to the new active block
+                const activeBlockElement = document.getElementById(`block-${currentBlockIndex}`);
+                if (activeBlockElement) {
+                    activeBlockElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderBlock(block, index) {
+            const isActive = index === currentBlockIndex;
+            const state = quizStates[index];
+            
+            const IconName = state.correct === true ? 'CheckCircle' : state.correct === false ? 'XCircle' : 'Zap';
+            const iconColor = state.correct === true ? "text-green-500" : state.correct === false ? "text-red-500" : "text-indigo-600";
+            const statusText = state.correct === true ? "Parabéns! Bloco Conectado." : state.correct === false ? "Opa! Reveja a nota cultural." : "Teste seu entendimento";
+
+            let conceptsHtml = block.concepts.map((concept, cIndex) => `
+                <div class="p-4 bg-indigo-50 rounded-lg">
+                    <p class="text-sm font-semibold text-indigo-700">🇧🇷 Português (O que queremos dizer):</p>
+                    <p class="text-xl italic text-gray-700 mb-2">"${concept.portuguese}"</p>
+                    <p class="text-sm font-semibold text-indigo-700">🇬🇧 English (A forma nativa):</p>
+                    <p class="text-2xl font-bold text-gray-900 mb-3">"${concept.english}"</p>
+                    <div class="mt-2 p-3 bg-indigo-100 rounded-md">
+                        <p class="text-sm font-medium text-indigo-900">💡 Raiz do Erro / Lego (O Porquê da Lição):</p>
+                        <p class="text-base text-indigo-900">${concept.culturalNote}</p>
+                    </div>
+                    <p class="text-xs mt-2 text-gray-500">Sentenças de Referência: ${concept.sourceSentences.join(", ")}</p>
+                </div>
+            `).join('');
+
+
+            let optionsHtml = block.quiz.options.map((option, oIndex) => {
+                let buttonClass = "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 focus:ring-indigo-500";
+                let disabled = '';
+
+                if (state.answered) {
+                    disabled = 'disabled';
+                    if (option.correct) {
+                        buttonClass = "bg-green-500 ring-4 ring-green-300 transform scale-105";
+                    } else if (option === state.selectedOption) {
+                        buttonClass = "bg-red-500 ring-4 ring-red-300 transform scale-105";
+                    } else {
+                        buttonClass = "bg-gray-400 cursor-not-allowed";
+                    }
+                }
+                
+                return `
+                    <button
+                        onclick="handleAnswer(${index}, ${oIndex})"
+                        ${disabled}
+                        class="p-4 text-white font-semibold rounded-xl transition duration-300 shadow-md transform hover:shadow-lg ${buttonClass} ${state.answered && !option.correct ? 'hover:shadow-none' : ''}"
+                    >
+                        ${option.text}
+                    </button>
+                `;
+            }).join('');
+
+            let quizFeedbackHtml = '';
+            if (state.answered) {
+                const feedbackClass = state.correct ? 'bg-green-100 border-2 border-green-500' : 'bg-red-100 border-2 border-red-500';
+                const feedbackTitleClass = state.correct ? 'text-green-800' : 'text-red-800';
+                const feedbackTitle = state.correct ? "Correto!" : "Incorreto!";
+                
+                let explanation = '';
+                if (!state.correct) {
+                    explanation = `
+                        <p class="text-red-700 mt-2">
+                            **Revisão:** ${state.selectedOption.explanation || "Tente novamente! Reveja a nota cultural acima."}
+                        </p>
+                    `;
+                }
+                
+                let nextButton = '';
+                if (state.correct) {
+                    nextButton = `
+                        <button
+                            onclick="handleBlockCompletion(${index})"
+                            class="mt-4 px-4 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 flex items-center transition duration-200"
+                        >
+                            Próximo Bloco ${getIconSVG('ArrowRight', 'w-5 h-5 ml-2')}
+                        </button>
+                    `;
+                }
+
+                quizFeedbackHtml = `
+                    <div class="mt-6 p-4 rounded-xl transition-opacity duration-500 ${feedbackClass}">
+                        <p class="font-bold text-lg ${feedbackTitleClass}">
+                            ${feedbackTitle}
+                        </p>
+                        ${explanation}
+                        <p class="text-gray-700 mt-2">
+                            **Dica do Professor:** ${block.quiz.tip}
+                        </p>
+                        ${nextButton}
+                    </div>
+                `;
+            }
+
+            const blockClass = isActive 
+                ? 'bg-white border-4 border-indigo-300 transform scale-100' 
+                : 'bg-gray-100 opacity-60 pointer-events-none';
+
+            return `
+                <div id="block-${index}" class="block-chain-container p-6 md:p-8 rounded-xl shadow-2xl transition-all duration-500 ${blockClass}">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-6 flex items-center">
+                        ${getIconSVG('Blocks', 'w-8 h-8 text-indigo-500 mr-3')} ${block.title}
+                    </h3>
+
+                    <!-- CONCEITOS -->
+                    <div class="space-y-6 mb-8 border-l-4 border-indigo-400 pl-4">
+                        ${conceptsHtml}
+                    </div>
+
+                    <!-- EXERCÍCIO -->
+                    <div class="mt-8 pt-6 border-t border-indigo-200">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            ${getIconSVG(IconName, `w-6 h-6 mr-2 ${iconColor}`)} ${statusText}
+                        </h4>
+                        
+                        <p class="text-lg font-medium text-gray-700 mb-6">${block.quiz.question}</p>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            ${optionsHtml}
+                        </div>
+
+                        ${quizFeedbackHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderApp() {
+            const container = document.getElementById('app');
+            const isComplete = currentBlockIndex >= lessonBlocks.length;
+            const progressPercent = (currentBlockIndex / lessonBlocks.length) * 100;
+
+            // HEADER
+            const header = `
+                <header class="bg-white shadow-lg sticky top-0 z-10">
+                    <div class="max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                        <h1 class="text-3xl font-extrabold text-indigo-700 flex items-center">
+                            ${getIconSVG('Blocks', 'w-8 h-8 mr-2 text-indigo-500')}
+                            Lego-Chain English
+                        </h1>
+                        <div class="flex items-center space-x-2">
+                            ${getIconSVG('UserCheck', 'w-5 h-5 text-gray-500')}
+                            <span class="text-sm font-medium text-gray-600">By Daby @2025</span>
+                        </div>
+                    </div>
+                </header>
+            `;
+            
+            // MAIN CONTENT START
+            let mainContent = `
+                <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+                    
+                    <!-- BOAS-VINDAS -->
+                    <div class="bg-indigo-600 p-6 sm:p-8 rounded-2xl shadow-xl text-white mb-10">
+                        <h2 class="text-3xl font-bold mb-3">Bem-vindo(a) à sua jornada de inglês!</h2>
+                        <p class="text-lg opacity-90">
+                            O objetivo deste curso é consertar o **"Bra-glish"**, a tradução literal que nos impede de soar nativos. Lembre-se: todo grande prédio é feito de pequenos e sólidos blocos. Vamos construir seu inglês, bloco por bloco, garantindo que seu conhecimento fique **sólido e conectado**!
+                        </p>
+                        <div class="mt-4">
+                            <p class="text-base font-semibold">Progresso Atual:</p>
+                            <div class="w-full bg-indigo-500 rounded-full h-2.5 mt-1">
+                                <div 
+                                    class="bg-lime-300 h-2.5 rounded-full transition-all duration-700" 
+                                    style="width: ${progressPercent}%"
+                                    role="progressbar"
+                                    aria-valuenow="${progressPercent}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                ></div>
+                            </div>
+                            <p class="text-sm mt-1">${currentBlockIndex} de ${lessonBlocks.length} Blocos Conectados</p>
+                        </div>
+                    </div>
+
+                    <!-- BLOCKS CONTAINER -->
+                    <div class="space-y-8">
+            `;
+
+            // BLOCKS RENDERING
+            mainContent += lessonBlocks.map((block, index) => {
+                const blockHtml = renderBlock(block, index);
+                
+                let connectionLine = '';
+                if (index > 0) {
+                    const lineColor = index <= currentBlockIndex ? 'bg-lime-500' : 'bg-gray-300';
+                    connectionLine = `
+                        <div class="absolute -top-4 left-1/2 -ml-0.5 w-1 h-8 ${lineColor} transition-colors duration-500"></div>
+                    `;
+                }
+
+                let completionIndicator = '';
+                 if (index < lessonBlocks.length - 1) {
+                    const indicatorClass = index < currentBlockIndex ? 'scale-100 opacity-100' : 'scale-0 opacity-0';
+                    completionIndicator = `
+                        <div class="flex justify-center -mb-4 mt-4 transition-transform duration-500 ${indicatorClass}">
+                            ${getIconSVG('CheckCircle', 'w-6 h-6 text-lime-500 bg-white rounded-full z-[1]')}
+                        </div>
+                    `;
+                }
+
+
+                return `
+                    <div key="${index}" id="block-container-${index}" class="relative">
+                        ${connectionLine}
+                        ${blockHtml}
+                        ${completionIndicator}
+                    </div>
+                `;
+            }).join('');
+
+            mainContent += '</div>'; // close space-y-8 container
+
+            // CONCLUSÃO
+            if (isComplete) {
+                mainContent += `
+                    <div class="mt-12 p-8 bg-lime-500 rounded-2xl shadow-xl text-white text-center">
+                        ${getIconSVG('CheckCircle', 'w-12 h-12 mx-auto mb-4')}
+                        <h3 class="text-3xl font-bold mb-2">Jornada Concluída!</h3>
+                        <p class="text-xl">
+                            Parabéns! Você conectou todos os Blocos de Conhecimento. Seu Block Chain de inglês está **sólido** e livre de 'Bra-glish'!
+                        </p>
+                        <p class="mt-4 text-base">
+                            A repetição é a chave. Revise os blocos e continue construindo.
+                        </p>
+                    </div>
+                `;
+            }
+
+            // FOOTER
+            mainContent += `
+                <footer class="mt-16 text-center text-sm text-gray-500 border-t pt-8">
+                    <p>&copy; By Daby @2025. Lego-Chain Method. Aprender é construir.</p>
+                </footer>
+            `;
+
+            mainContent += '</main>'; // close main
+
+            container.innerHTML = header + mainContent;
+        }
+
+        // Initialize the app on window load
+        window.onload = function() {
+            renderApp();
+        };
+
+        // Expose handleAnswer and handleBlockCompletion globally for button click handlers
+        window.handleAnswer = handleAnswer;
+        window.handleBlockCompletion = handleBlockCompletion;
+        
+    </script>
+</body>
+</html>
